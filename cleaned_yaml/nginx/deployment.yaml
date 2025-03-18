@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - env: []
-        image: 051826741816.dkr.ecr.ap-south-1.amazonaws.com/test/jenkins:73
+        image: nginx:latest
         imagePullPolicy: Always
         livenessProbe:
           failureThreshold: 5
