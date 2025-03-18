@@ -1,0 +1,20 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: nginx-project
+  namespace: default
+spec:
+  rules:
+  - host: nginx-project.example.com
+    http:
+      paths:
+      - backend:
+          service:
+            name: nginx-project
+            port:
+              number: 80
+        pathType: ImplementationSpecific
+  tls:
+  - hosts:
+    - nginx-project.example.com
+    secretName: nginx-project-tls

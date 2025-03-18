@@ -1,0 +1,132 @@
+items:
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    name: jenkins
+    namespace: default
+  spec:
+    replicas: 1
+    selector:
+      matchLabels: {}
+    serviceName: {}
+    template:
+      metadata:
+        labels: {}
+      spec:
+        containers:
+        - env:
+          - name: POD_NAME
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.name
+          - name: BITNAMI_DEBUG
+            value: 'false'
+          - name: JENKINS_USERNAME
+            value: user
+          - name: JENKINS_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: jenkins-password
+                name: jenkins
+          - name: JENKINS_HOME
+            value: /bitnami/jenkins/home
+          - name: JENKINS_SKIP_BOOTSTRAP
+            value: 'no'
+          - name: JENKINS_HOST
+          - name: JENKINS_EXTERNAL_HTTP_PORT_NUMBER
+            value: '80'
+          - name: JENKINS_EXTERNAL_HTTPS_PORT_NUMBER
+            value: '443'
+          - name: JENKINS_PLUGINS_LATEST
+            value: 'true'
+          - name: JENKINS_PLUGINS_LATEST_SPECIFIED
+            value: 'false'
+          - name: JENKINS_SKIP_IMAGE_PLUGINS
+            value: 'false'
+          - name: JENKINS_OVERRIDE_PLUGINS
+            value: 'false'
+          image: docker.io/bitnami/jenkins:{IMAGE_TAG}
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            failureThreshold: 6
+            initialDelaySeconds: 180
+            periodSeconds: 10
+            successThreshold: 1
+            tcpSocket:
+              port: http
+            timeoutSeconds: 5
+          name: jenkins
+          ports:
+          - containerPort: 8080
+            name: http
+            protocol: TCP
+          - containerPort: 8443
+            name: https
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /login
+              port: http
+              scheme: HTTP
+            initialDelaySeconds: 30
+            periodSeconds: 5
+            successThreshold: 1
+            timeoutSeconds: 3
+          resources:
+            limits:
+              cpu: 750m
+              ephemeral-storage: 2Gi
+              memory: 1536Mi
+            requests:
+              cpu: 500m
+              ephemeral-storage: 50Mi
+              memory: 1Gi
+          volumeMounts:
+          - mountPath: /tmp
+            name: empty-dir
+            subPath: tmp-dir
+          - mountPath: /opt/bitnami/jenkins/plugins
+            name: empty-dir
+            subPath: app-plugins-dir
+          - mountPath: /opt/bitnami/jenkins/tmp
+            name: empty-dir
+            subPath: app-tmp-dir
+          - mountPath: /opt/bitnami/jenkins/logs
+            name: empty-dir
+            subPath: app-logs-dir
+          - mountPath: /bitnami/jenkins
+            name: jenkins-data
+        volumes:
+        - emptyDir: {}
+          name: empty-dir
+        - name: jenkins-data
+          persistentVolumeClaim:
+            claimName: jenkins
+    volumeClaimTemplates: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    name: jenkins
+    namespace: default
+  spec:
+    ports:
+    - name: http
+      port: 80
+      targetPort: http
+    - name: https
+      port: 443
+      targetPort: https
+    type: LoadBalancer
+- apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    name: jenkins
+    namespace: default
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: 8Gi

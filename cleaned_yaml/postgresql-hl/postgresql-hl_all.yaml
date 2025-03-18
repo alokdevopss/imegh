@@ -1,0 +1,12 @@
+items:
+- apiVersion: v1
+  kind: Service
+  metadata:
+    name: postgresql-hl
+    namespace: default
+  spec:
+    ports:
+    - name: tcp-postgresql
+      port: 5432
+      targetPort: tcp-postgresql
+    type: ClusterIP
