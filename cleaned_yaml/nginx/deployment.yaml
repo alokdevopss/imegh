@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - env: []
-        image: 051826741816.dkr.ecr.ap-south-1.amazonaws.com/test/jenkins:80
+        image: 051826741816.dkr.ecr.ap-south-1.amazonaws.com/test/jenkins:81
         imagePullPolicy: Always
         livenessProbe:
           failureThreshold: 5
