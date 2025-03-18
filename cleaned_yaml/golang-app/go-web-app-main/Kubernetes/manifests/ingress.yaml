@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: golang-app 
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: "golang-app.com"
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/courses"
+        backend:
+          service:
+            name: golang-app
+            port:
+              number: 80
