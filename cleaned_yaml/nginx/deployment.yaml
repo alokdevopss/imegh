@@ -15,7 +15,11 @@ spec:
     spec:
       containers:
       - env: []
+<<<<<<< HEAD
         image: nginx:{IMAGE_TAG}
+=======
+        image: nginx:latest
+>>>>>>> fec154a304f03f59ddea3f2db6a6567a040e7462
         imagePullPolicy: Always
         livenessProbe:
           failureThreshold: 5
