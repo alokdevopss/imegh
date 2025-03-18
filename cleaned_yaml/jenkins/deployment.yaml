@@ -8,7 +8,6 @@ spec:
   selector:
     matchLabels:
       app: jenkins
-  serviceName: {}
   template:
     metadata:
       labels:
@@ -35,6 +34,5 @@ spec:
           requests:
             cpu: 700m
             memory: 1000Mi
-        volumeMounts: []
       volumes: []
   volumeClaimTemplates: {}

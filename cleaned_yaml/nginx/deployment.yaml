@@ -8,7 +8,6 @@ spec:
   selector:
     matchLabels:
       app: nginx
-  serviceName: {}
   template:
     metadata:
       labels:
@@ -16,7 +15,7 @@ spec:
     spec:
       containers:
       - env: []
-        image: 051826741816.dkr.ecr.ap-south-1.amazonaws.com/test/jenkins:73
+        image: nginx:{IMAGE_TAG}
         imagePullPolicy: Always
         livenessProbe:
           failureThreshold: 5
@@ -49,6 +48,5 @@ spec:
           requests:
             cpu: 50m
             memory: 50Mi
-        volumeMounts: []
       volumes: []
   volumeClaimTemplates: {}
