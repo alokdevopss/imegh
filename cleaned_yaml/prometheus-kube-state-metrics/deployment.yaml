@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prometheus-kube-state-metrics
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels: {}
+  template:
+    metadata:
+      labels: {}
+    spec:
+      containers:
+      - env: []
+        image: registry.k8s.io/kube-state-metrics/kube-state-metrics:{IMAGE_TAG}
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /livez
+            port: 8080
+            scheme: HTTP
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 5
+        name: kube-state-metrics
+        ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP
+        readinessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /readyz
+            port: 8081
+            scheme: HTTP
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 5
+        resources: {}
+      volumes: []

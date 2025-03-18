@@ -1,0 +1,18 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: golang-app
+  namespace: default
+spec:
+  rules:
+  - host: golang-app.com
+    http:
+      paths:
+      - backend:
+          service:
+            name: golang-app
+            port:
+              number: 80
+        path: /courses
+        pathType: Prefix
+  tls: {}

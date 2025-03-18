@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: kube-state-metrics-ext
+  namespace: default
+spec:
+  ports:
+  - name: null
+    port: 8080
+    targetPort: 8080
+  type: NodePort

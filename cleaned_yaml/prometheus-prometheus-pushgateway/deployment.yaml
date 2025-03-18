@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prometheus-prometheus-pushgateway
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels: {}
+  template:
+    metadata:
+      labels: {}
+    spec:
+      containers:
+      - env: []
+        image: quay.io/prometheus/pushgateway:{IMAGE_TAG}
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /-/healthy
+            port: 9091
+            scheme: HTTP
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 10
+        name: pushgateway
+        ports:
+        - containerPort: 9091
+          name: metrics
+          protocol: TCP
+        readinessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /-/ready
+            port: 9091
+            scheme: HTTP
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 10
+        resources: {}
+      volumes:
+      - emptyDir: {}
+        name: storage-volume

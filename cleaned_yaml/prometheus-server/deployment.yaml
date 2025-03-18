@@ -1,0 +1,78 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prometheus-server
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels: {}
+  template:
+    metadata:
+      labels: {}
+    spec:
+      containers:
+      - env: []
+        image: quay.io/prometheus-operator/prometheus-config-reloader:{IMAGE_TAG}
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /healthz
+            port: metrics
+            scheme: HTTP
+          initialDelaySeconds: 2
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 1
+        name: prometheus-server-configmap-reload
+        ports:
+        - containerPort: 8080
+          name: metrics
+          protocol: TCP
+        readinessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /healthz
+            port: metrics
+            scheme: HTTP
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 1
+        resources: {}
+      - env: []
+        image: quay.io/prometheus/prometheus:{IMAGE_TAG}
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /-/healthy
+            port: 9090
+            scheme: HTTP
+          initialDelaySeconds: 30
+          periodSeconds: 15
+          successThreshold: 1
+          timeoutSeconds: 10
+        name: prometheus-server
+        ports:
+        - containerPort: 9090
+          protocol: TCP
+        readinessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /-/ready
+            port: 9090
+            scheme: HTTP
+          initialDelaySeconds: 30
+          periodSeconds: 5
+          successThreshold: 1
+          timeoutSeconds: 4
+        resources: {}
+      volumes:
+      - configMap:
+          defaultMode: 420
+          name: prometheus-server
+        name: config-volume
+      - name: storage-volume
+        persistentVolumeClaim:
+          claimName: prometheus-server
