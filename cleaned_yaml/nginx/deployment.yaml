@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: nginx
-  namespace: test
+  namespace: test2
 spec:
   replicas: 2
   selector:
@@ -49,4 +49,3 @@ spec:
             cpu: 50m
             memory: 50Mi
       volumes: []
-  volumeClaimTemplates: {}
