@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - env: []
-        image: jenkins/jenkins:{IMAGE_TAG}
+        image: jenkins/jenkins:lts
         imagePullPolicy: IfNotPresent
         livenessProbe: {}
         name: jenkins
