@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - env: []
-        image: 051826741816.dkr.ecr.ap-south-1.amazonaws.com/test/jenkins:81
+        image: us-central1-docker.pkg.dev/civic-gate-439511-j2/frontend/frontend:10
         imagePullPolicy: Always
         livenessProbe:
           failureThreshold: 5
