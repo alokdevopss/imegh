@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - env: []
-        image: us-central1-docker.pkg.dev/civic-gate-439511-j2/frontend/frontend:10
+        image: us-central1-docker.pkg.dev/civic-gate-439511-j2/frontend/frontend:13
         imagePullPolicy: Always
         livenessProbe:
           failureThreshold: 5
