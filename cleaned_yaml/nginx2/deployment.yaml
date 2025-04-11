@@ -3,11 +3,11 @@ kind: Rollout
 metadata:
   name: nginx
 spec:
-  replicas: 5
+  replicas: 4
   strategy:
     canary:
       steps:
-        - setWeight: 50
+        - setWeight: 10
         - pause: {duration: 300s}
   selector:
     matchLabels:
@@ -29,26 +29,26 @@ spec:
             limits:
               memory: 100Mi
               cpu: "100m"
-        livenessProbe:
-          failureThreshold: 5
-          httpGet:
-            path: /
-            port: 80
-            scheme: HTTP
-          initialDelaySeconds: 60
-          periodSeconds: 10
-          successThreshold: 1
-          timeoutSeconds: 5
-        readinessProbe:
-          failureThreshold: 3
-          httpGet:
-            path: /
-            port: 80
-            scheme: HTTP
-          initialDelaySeconds: 60
-          periodSeconds: 10
-          successThreshold: 1
-          timeoutSeconds: 5        
+        # livenessProbe:
+        #   failureThreshold: 5
+        #   httpGet:
+        #     path: /
+        #     port: 80
+        #     scheme: HTTP
+        #   initialDelaySeconds: 60
+        #   periodSeconds: 10
+        #   successThreshold: 1
+        #   timeoutSeconds: 5
+        # readinessProbe:
+        #   failureThreshold: 3
+        #   httpGet:
+        #     path: /
+        #     port: 80
+        #     scheme: HTTP
+        #   initialDelaySeconds: 60
+        #   periodSeconds: 10
+        #   successThreshold: 1
+        #   timeoutSeconds: 5        
         volumeMounts:
           - name: nginx-vol
             mountPath: /etc/nginx/conf.d
