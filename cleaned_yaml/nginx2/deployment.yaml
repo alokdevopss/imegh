@@ -29,22 +29,22 @@ spec:
             limits:
               memory: 2000Mi
               cpu: "500m"
-        livenessProbe:
-            httpGet:
-              path: /
-              port: 80
-            initialDelaySeconds: 60
-            periodSeconds: 10
-            timeoutSeconds: 5
-            failureThreshold: 5
-        readinessProbe:
-            httpGet:
-              path: /
-              port: 80
-            initialDelaySeconds: 60
-            periodSeconds: 10
-            timeoutSeconds: 5
-            failureThreshold: 3         
+        # livenessProbe:
+        #     httpGet:
+        #       path: /
+        #       port: 80
+        #     initialDelaySeconds: 60
+        #     periodSeconds: 10
+        #     timeoutSeconds: 5
+        #     failureThreshold: 5
+        # readinessProbe:
+        #     httpGet:
+        #       path: /
+        #       port: 80
+        #     initialDelaySeconds: 60
+        #     periodSeconds: 10
+        #     timeoutSeconds: 5
+        #     failureThreshold: 3         
         volumeMounts:
           - name: nginx-vol
             mountPath: /etc/nginx/conf.d
