@@ -8,7 +8,9 @@ spec:
     canary:
       steps:
         - setWeight: 50
-        - pause: {}
+        - pause: {}                # Manual pause (requires a user action to continue)
+        # - pause: {duration: 60s}   # Auto-resume after 60 seconds
+
   selector:
     matchLabels:
       app: nginx        # tells deployment to run 1 pods matching the template
