@@ -1,9 +1,14 @@
-apiVersion: apps/v1     # for versions before 1.9.0 use apps/v1beta2
-kind: rollout
+apiVersion: argoproj.io/v1alpha1     # for versions before 1.9.0 use apps/v1beta2
+kind: Rollout
 metadata:
   name: nginx
 spec:
-  replicas: 1  
+  replicas: 5
+  strategy:
+    canary:
+      steps:
+        - setWeight: 50
+        - pause: {duration: 300s}
   selector:
     matchLabels:
       app: nginx        # tells deployment to run 1 pods matching the template
