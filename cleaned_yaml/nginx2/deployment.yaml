@@ -1,0 +1,52 @@
+apiVersion: apps/v1     # for versions before 1.9.0 use apps/v1beta2
+kind: rollout
+metadata:
+  name: nginx
+spec:
+  replicas: 1  
+  selector:
+    matchLabels:
+      app: nginx        # tells deployment to run 1 pods matching the template
+  template:            # create pods using pod definition in this template
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+        resources:     
+            requests:
+              memory: 1000Mi
+              cpu: "250m"
+            limits:
+              memory: 2000Mi
+              cpu: "500m"
+        livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 60
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 5
+        readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 60
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3         
+        volumeMounts:
+          - name: nginx-vol
+            mountPath: /etc/nginx/conf.d
+          - name: nginx-vol
+            mountPath: /etc/nginx/certs
+      volumes:
+        - name: nginx-vol
+          persistentVolumeClaim:
+            claimName: nginx-pvc  
+
