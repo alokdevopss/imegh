@@ -8,7 +8,7 @@ spec:
     canary:
       steps:
         - setWeight: 10
-        - pause: {duration: 300s}
+        - pause: {duration: 100s}
   selector:
     matchLabels:
       app: nginx        # tells deployment to run 1 pods matching the template
@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: nginx
-        image: nginx:latest
+        image: nginx:1.19
         ports:
         - containerPort: 80
         resources:     
