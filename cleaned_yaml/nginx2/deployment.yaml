@@ -3,7 +3,7 @@ kind: Rollout
 metadata:
   name: nginx
 spec:
-  replicas: 2
+  replicas: 3
   strategy:
     canary:
       steps:
