@@ -3,11 +3,11 @@ kind: Rollout
 metadata:
   name: nginx
 spec:
-  replicas: 3
+  replicas: 4
   strategy:
     canary:
       steps:
-        - setWeight: 10
+        - setWeight: 50
         - pause: {duration: 100s}
   selector:
     matchLabels:
