@@ -5,7 +5,7 @@ metadata:
   labels:
     app: service-a
 spec:
-  replicas: 3
+  replicas: 1
   strategy:
     type: RollingUpdate
     rollingUpdate:
