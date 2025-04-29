@@ -31,4 +31,12 @@ spec:
           requests:
             cpu: 700m
             memory: 1000Mi
-      volumes: []
+      volumeMounts:
+          - name: jenkins-vol
+            mountPath: /etc/jenkins
+          - name: nginx-vol
+            mountPath: /etc/jenkins
+      volumes:
+        - name: jenkins-vol
+          persistentVolumeClaim:
+            claimName: jenkins-pvc 
