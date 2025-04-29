@@ -13,7 +13,6 @@ spec:
         app: jenkins
     spec:
       containers:
-      - env: []
         image: jenkins/jenkins:lts
         imagePullPolicy: IfNotPresent
         name: jenkins
@@ -33,9 +32,7 @@ spec:
             memory: 1000Mi
       volumeMounts:
           - name: jenkins-vol
-            mountPath: /etc/jenkins
-          - name: nginx-vol
-            mountPath: /etc/jenkins
+            mountPath: /var/jenkins_home
       volumes:
         - name: jenkins-vol
           persistentVolumeClaim:
