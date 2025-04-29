@@ -18,7 +18,7 @@ spec:
     metadata:
       labels:
         app: service-a
-        version: v2  # For observability; not used by the Service
+        #version: v2  # For observability; not used by the Service
     spec:
       containers:
       - name: service-a
@@ -27,7 +27,7 @@ spec:
         - containerPort: 80
         readinessProbe:
           httpGet:
-            path: /healthz
+            path: /
             port: 80
           initialDelaySeconds: 5
           periodSeconds: 5
