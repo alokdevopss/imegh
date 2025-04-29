@@ -13,9 +13,9 @@ spec:
         app: jenkins
     spec:
       containers:
+      - name: jenkins
         image: jenkins/jenkins:lts
         imagePullPolicy: IfNotPresent
-        name: jenkins
         ports:
         - containerPort: 8080
           name: http-port
@@ -30,10 +30,10 @@ spec:
           requests:
             cpu: 700m
             memory: 1000Mi
-      volumeMounts:
-          - name: jenkins-vol
-            mountPath: /var/jenkins_home
-      volumes:
+        volumeMounts:
         - name: jenkins-vol
-          persistentVolumeClaim:
-            claimName: jenkins-pvc 
+          mountPath: /var/jenkins_home
+      volumes:
+      - name: jenkins-vol
+        persistentVolumeClaim:
+          claimName: jenkins-pvc
