@@ -4,7 +4,7 @@ metadata:
   name: nginx
 spec:
   maxReplicas: 5
-  minReplicas: 1
+  # minReplicas: 1
   metrics:
   - resource:
       name: cpu
