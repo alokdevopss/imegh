@@ -14,5 +14,5 @@ spec:
   minReplicas: 2
   scaleTargetRef:
     apiVersion: extensions/v1beta1
-    kind: Deployment
+    kind: Rollout
     name: nginx
