@@ -14,6 +14,6 @@ spec:
     type: Resource
   minReplicas: 2
   scaleTargetRef:
-    apiVersion: apps/v1
+    apiVersion: extensions/v1beta1
     kind: Rollout
     name: nginx
