@@ -12,7 +12,6 @@ spec:
         averageUtilization: 50
         type: Utilization
     type: Resource
-  minReplicas: 2
   scaleTargetRef:
     apiVersion: argoproj.io/v1alpha1
     kind: Rollout
