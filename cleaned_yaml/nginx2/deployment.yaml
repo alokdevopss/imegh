@@ -7,14 +7,14 @@ spec:
   strategy:
     canary:
       steps:
-        #- setWeight: 50
+        - setWeight: 50
         #- pause: {}                # Manual pause (requires a user action to continue)
-        # - pause: {duration: 60s}   # Auto-resume after 60 seconds
-        - setWeight: 20    # Step 1: Send 20% traffic to new version
-        - pause: {}
-        - setWeight: 50    # Step 2: Send 50% traffic to new version
-        - pause: {}
-        - setWeight: 100   # Step 3: Send 100% traffic to new version
+        - pause: {duration: 60s}   # Auto-resume after 60 seconds
+        # - setWeight: 20    # Step 1: Send 20% traffic to new version
+        # - pause: {}
+        # - setWeight: 50    # Step 2: Send 50% traffic to new version
+        # - pause: {}
+        # - setWeight: 100   # Step 3: Send 100% traffic to new version
 
   selector:
     matchLabels:
