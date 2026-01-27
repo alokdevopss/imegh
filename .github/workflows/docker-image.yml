@@ -37,15 +37,15 @@ jobs:
       run: |
         aws ecr describe-repositories --region ap-south-1
 
-    # - name: Build and push Docker image
-    #   env:
-    #     ECR_REPO: qwerty-ecs
-    #     IMAGE_TAG: ${{ github.sha }}
-    #     ACCOUNT_ID: 911473676010
-    #     REGION: ap-south-1
-    #   run: |
-    #     cd docker
-    #     docker build -t $ECR_REPO:$IMAGE_TAG .
-    #     docker tag $ECR_REPO:$IMAGE_TAG $ACCOUNT_ID.dkr.ecr.$REGION.amazonaws.com/$ECR_REPO:$IMAGE_TAG
-    #     docker push $ACCOUNT_ID.dkr.ecr.$REGION.amazonaws.com/$ECR_REPO:$IMAGE_TAG
+    - name: Build and push Docker image
+      env:
+        ECR_REPO: qwerty-ecs
+        IMAGE_TAG: ${{ github.sha }}
+        ACCOUNT_ID: 911473676010
+        REGION: ap-south-1
+      run: |
+        cd docker
+        docker build -t $ECR_REPO:$IMAGE_TAG .
+        docker tag $ECR_REPO:$IMAGE_TAG $ACCOUNT_ID.dkr.ecr.$REGION.amazonaws.com/$ECR_REPO:$IMAGE_TAG
+        docker push $ACCOUNT_ID.dkr.ecr.$REGION.amazonaws.com/$ECR_REPO:$IMAGE_TAG
         
