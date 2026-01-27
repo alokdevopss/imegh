@@ -44,26 +44,28 @@ jobs:
         REGION: ap-south-1
         ECR_REPO: qwerty/ecs
       run: |
-        latest_tag=\$(aws ecr list-images \\
-                    --repository-name $ECR_REPO \\
-                    --region $REGION \\
-                    --query 'imageIds[*].imageTag' \\
-                    --output text | tr '\\t' '\\n' | grep -E '^v[0-9]+\\.[0-9]+\\.[0-9]+\$' | sort -V | tail -n 1)
+        latest_tag=$(aws ecr list-images \
+          --repository-name $ECR_REPO \
+          --region $REGION \
+          --query 'imageIds[*].imageTag' \
+          --output text | tr '\t' '\n' \
+          | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' \
+          | sort -V | tail -n 1)
 
-        echo "ECR repository latest tag: \$latest_tag"
-                            
-        if [ -z "\$latest_tag" ]; then
-            new_tag="v1.0.0"
+        echo "ECR repository latest tag: $latest_tag"
+
+        if [ -z "$latest_tag" ]; then
+          new_tag="v1.0.0"
         else
-            major=\$(echo \$latest_tag | cut -d. -f1 | tr -d 'v')
-            minor=\$(echo \$latest_tag | cut -d. -f2)
-            patch=\$(echo \$latest_tag | cut -d. -f3)
-            patch=\$((patch + 1))
-            new_tag="v\${major}.\${minor}.\${patch}"
+          major=$(echo $latest_tag | cut -d. -f1 | tr -d 'v')
+          minor=$(echo $latest_tag | cut -d. -f2)
+          patch=$(echo $latest_tag | cut -d. -f3)
+          patch=$((patch + 1))
+          new_tag="v${major}.${minor}.${patch}"
         fi
 
-        new_full_image="${ECR_REPO}:\$new_tag"
-        echo "latest_iamge = \$new_full_image"
+        echo "NEW_TAG=$new_tag" >> $GITHUB_ENV
+        echo "Next image tag will be: $new_tag"
     
     # - name: Build and push Docker image
     #   env:
