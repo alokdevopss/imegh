@@ -40,13 +40,13 @@ jobs:
     - name: Build and push Docker image
       env:
         ECR_REPO: qwerty/ecs
-        IMAGE_TAG: ${{ github.sha }}
+        IMAGE_TAG: v0.0.1
         ACCOUNT_ID: 911473676010
         REGION: ap-south-1
       run: |
         cd docker
         echo $IMAGE_TAG
-        # docker build -t $ECR_REPO:$IMAGE_TAG .
-        # docker tag $ECR_REPO:$IMAGE_TAG $ACCOUNT_ID.dkr.ecr.$REGION.amazonaws.com/$ECR_REPO:$IMAGE_TAG
-        # docker push $ACCOUNT_ID.dkr.ecr.$REGION.amazonaws.com/$ECR_REPO:$IMAGE_TAG
+        docker build -t $ECR_REPO:$IMAGE_TAG .
+        docker tag $ECR_REPO:$IMAGE_TAG $ACCOUNT_ID.dkr.ecr.$REGION.amazonaws.com/$ECR_REPO:$IMAGE_TAG
+        docker push $ACCOUNT_ID.dkr.ecr.$REGION.amazonaws.com/$ECR_REPO:$IMAGE_TAG
         
