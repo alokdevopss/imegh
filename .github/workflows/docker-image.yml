@@ -40,5 +40,7 @@ jobs:
         IMAGE_TAG: ${{ github.sha }}
       run: |
         cd docker
-        ls
+        docker build -t $ECR_REPO:$IMAGE_TAG .
+        docker tag $ECR_REPO:$IMAGE_TAG 911473676010.dkr.ecr.us-east-1.amazonaws.com/$ECR_REPO:$IMAGE_TAG
+        docker push 911473676010.dkr.ecr.us-east-1.amazonaws.com/$ECR_REPO:$IMAGE_TAG
         
