@@ -27,20 +27,25 @@ jobs:
         ls
         pwd
 
+    - name: Verify AWS identity
+      run: aws sts get-caller-identity
+
     - name: Login to Amazon ECR
       uses: aws-actions/amazon-ecr-login@v2
 
     - name: debug-workflow
       run: |
-        docker images
+        aws ecr describe-repositories --region ap-south-1
 
-    - name: Build and push Docker image
-      env:
-        ECR_REPO: qwerty/ecs
-        IMAGE_TAG: ${{ github.sha }}
-      run: |
-        cd docker
-        docker build -t $ECR_REPO:$IMAGE_TAG .
-        docker tag $ECR_REPO:$IMAGE_TAG 911473676010.dkr.ecr.us-east-1.amazonaws.com/$ECR_REPO:$IMAGE_TAG
-        docker push 911473676010.dkr.ecr.us-east-1.amazonaws.com/$ECR_REPO:$IMAGE_TAG
+    # - name: Build and push Docker image
+    #   env:
+    #     ECR_REPO: qwerty-ecs
+    #     IMAGE_TAG: ${{ github.sha }}
+    #     ACCOUNT_ID: 911473676010
+    #     REGION: ap-south-1
+    #   run: |
+    #     cd docker
+    #     docker build -t $ECR_REPO:$IMAGE_TAG .
+    #     docker tag $ECR_REPO:$IMAGE_TAG $ACCOUNT_ID.dkr.ecr.$REGION.amazonaws.com/$ECR_REPO:$IMAGE_TAG
+    #     docker push $ACCOUNT_ID.dkr.ecr.$REGION.amazonaws.com/$ECR_REPO:$IMAGE_TAG
         
