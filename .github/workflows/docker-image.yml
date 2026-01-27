@@ -37,16 +37,42 @@ jobs:
       run: |
         aws ecr describe-repositories --region ap-south-1
 
-    - name: Build and push Docker image
+    - name: Get latest image tag from ECR
+      # id: get_version
       env:
-        ECR_REPO: qwerty/ecs
-        IMAGE_TAG: ${{ github.sha }}
         ACCOUNT_ID: 911473676010
         REGION: ap-south-1
+        ECR_REPO: qwerty/ecs
       run: |
-        cd docker
-        echo $IMAGE_TAG
-        # docker build -t $ECR_REPO:$IMAGE_TAG .
-        # docker tag $ECR_REPO:$IMAGE_TAG $ACCOUNT_ID.dkr.ecr.$REGION.amazonaws.com/$ECR_REPO:$IMAGE_TAG
-        # docker push $ACCOUNT_ID.dkr.ecr.$REGION.amazonaws.com/$ECR_REPO:$IMAGE_TAG
-        
+        latest_tag=\$(aws ecr list-images \\
+                    --repository-name $ECR_REPO \\
+                    --region $REGION \\
+                    --query 'imageIds[*].imageTag' \\
+                    --output text | tr '\\t' '\\n' | grep -E '^v[0-9]+\\.[0-9]+\\.[0-9]+\$' | sort -V | tail -n 1)
+
+        echo "ECR repository latest tag: \$latest_tag"
+                            
+        if [ -z "\$latest_tag" ]; then
+            new_tag="v1.0.0"
+        else
+            major=\$(echo \$latest_tag | cut -d. -f1 | tr -d 'v')
+            minor=\$(echo \$latest_tag | cut -d. -f2)
+            patch=\$(echo \$latest_tag | cut -d. -f3)
+            patch=\$((patch + 1))
+            new_tag="v\${major}.\${minor}.\${patch}"
+        fi
+
+        new_full_image="${ECR_REPO}:\$new_tag"
+        echo "latest_iamge = \$new_full_image"
+    
+    # - name: Build and push Docker image
+    #   env:
+    #     ACCOUNT_ID: 911473676010
+    #     REGION: ap-south-1
+    #     ECR_REPO: qwerty/ecs
+    #   run: |
+    #     docker build -t $ECR_REPO:$new_tag .
+    #     docker tag $ECR_REPO:$new_tag $ACCOUNT_ID.dkr.ecr.$REGION.amazonaws.com/$ECR_REPO:$new_tag
+    #     docker push $ACCOUNT_ID.dkr.ecr.$REGION.amazonaws.com/$ECR_REPO:$new_tag
+
+            
