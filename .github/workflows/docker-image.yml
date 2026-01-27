@@ -45,7 +45,8 @@ jobs:
         REGION: ap-south-1
       run: |
         cd docker
-        docker build -t $ECR_REPO:$IMAGE_TAG .
-        docker tag $ECR_REPO:$IMAGE_TAG $ACCOUNT_ID.dkr.ecr.$REGION.amazonaws.com/$ECR_REPO:$IMAGE_TAG
-        docker push $ACCOUNT_ID.dkr.ecr.$REGION.amazonaws.com/$ECR_REPO:$IMAGE_TAG
+        echo $IMAGE_TAG
+        # docker build -t $ECR_REPO:$IMAGE_TAG .
+        # docker tag $ECR_REPO:$IMAGE_TAG $ACCOUNT_ID.dkr.ecr.$REGION.amazonaws.com/$ECR_REPO:$IMAGE_TAG
+        # docker push $ACCOUNT_ID.dkr.ecr.$REGION.amazonaws.com/$ECR_REPO:$IMAGE_TAG
         
