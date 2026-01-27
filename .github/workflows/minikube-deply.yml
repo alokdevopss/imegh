@@ -12,6 +12,11 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
+    - name: Debug workspace
+      run: |
+        pwd
+        ls -la
+
     - name: Set kubectl context
       run: |
         kubectl config use-context minikube
