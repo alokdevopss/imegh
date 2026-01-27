@@ -1,0 +1,30 @@
+name: Deploy to ECS
+
+on:
+  push:
+    branches: [ "main" ]
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Configure AWS credentials (OIDC)
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        role-to-assume: arn:aws:iam::911473676010:role/github-action-role
+        aws-region: ap-south-1
+
+    - name: debug-workflow
+      run: |
+        ls
+        pwd
+
+
