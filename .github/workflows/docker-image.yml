@@ -39,7 +39,7 @@ jobs:
 
     - name: Build and push Docker image
       env:
-        ECR_REPO: qwerty-ecs
+        ECR_REPO: qwerty/ecs
         IMAGE_TAG: ${{ github.sha }}
         ACCOUNT_ID: 911473676010
         REGION: ap-south-1
