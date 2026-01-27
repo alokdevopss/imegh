@@ -34,8 +34,11 @@ jobs:
       run: |
         docker images
 
-
-
-
-
+    - name: Build and push Docker image
+      env:
+        ECR_REPO: qwerty/ecs
+        IMAGE_TAG: ${{ github.sha }}
+      run: |
+        cd docker
+        ls
         
